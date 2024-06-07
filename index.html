@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Form</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #1877f2;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 800px;
+        }
+        .container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #1877f2;
+        }
+        .form-control:focus {
+            border-color: #1877f2;
+            box-shadow: none;
+        }
+        .btn-primary {
+            background-color: #1877f2;
+            border-color: #1877f2;
+        }
+        .btn-primary:hover {
+            background-color: #145dbf;
+            border-color: #145dbf;
+        }
+        .success-message, .error-message {
+            display: none;
+            margin-top: 10px;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function() {
+            emailjs.init("gkIpVYT3CHg7ZgDjn");
+        })();
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h2>Contact Us</h2>
+        <form id="form">
+            <div class="form-group">
+                <label for="from_name">Enter name</label>
+                <input class="form-control" type="text" name="from_name" id="from_name" required>
+            </div>
+            <div class="form-group">
+                <label for="Email_id">Enter Email</label>
+                <input class="form-control" type="email" name="Email_id" id="Email_id" required>
+            </div>
+            <div class="form-group">
+                <label for="reply_to">Enter number</label>
+                <input class="form-control" type="number" name="reply_to" id="reply_to" required>
+            </div>
+            <div class="form-group">
+                <label for="message">Message</label>
+                <textarea class="form-control" rows="3" name="message" id="message" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary" id="button">Send Email</button>
+            <div id="response-message" class="success-message text-success">✔️ Message Sent Successfully!</div>
+            <div id="error-message" class="error-message text-danger">❌ There was an error sending the message.</div>
+        </form>
+    </div>
+
+    <script>
+        const btn = document.getElementById('button');
+        const responseMessage = document.getElementById('response-message');
+        const errorMessage = document.getElementById('error-message');
+
+        document.getElementById('form').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            btn.textContent = 'Sending...';
+
+            const serviceID = 'default_service';
+            const templateID = 'template_2wmo61o';
+
+            emailjs.sendForm(serviceID, templateID, this)
+                .then(() => {
+                    btn.textContent = 'Send Email';
+                    responseMessage.style.display = 'block';
+                    errorMessage.style.display = 'none';
+                }, (err) => {
+                    btn.textContent = 'Send Email';
+                    responseMessage.style.display = 'none';
+                    errorMessage.style.display = 'block';
+                });
+        });
+    </script>
+</body>
+</html>
